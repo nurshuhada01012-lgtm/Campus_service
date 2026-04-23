@@ -1,0 +1,22 @@
+<?php include "db.php"; ?>
+
+<form method="POST">
+<input name="username" placeholder="Username" required><br>
+<input name="email" placeholder="Email" required><br>
+<input name="password" type="password" placeholder="Password" required><br>
+<button>Register</button>
+</form>
+
+<?php
+if($_POST){
+    $u = $_POST['username'];
+    $e = $_POST['email'];
+    $p = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare("INSERT INTO users (username,email,password) VALUES (?,?,?)");
+    $stmt->bind_param("sss",$u,$e,$p);
+    $stmt->execute();
+
+    echo "Registered!";
+}
+?>
